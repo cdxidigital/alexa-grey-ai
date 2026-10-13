@@ -7,16 +7,16 @@
 ## What is implemented
 
 - Authenticated **/studio** creator workspace, separate from public chat.
-- Allowlist protection with Vercel/Better Auth session: \`ALEXA_STUDIO_ALLOWED_EMAILS\`.
+- Allowlist protection with Vercel/Better Auth session: `ALEXA_STUDIO_ALLOWED_EMAILS`.
 - Server-side activation only after explicit likeness consent record ID, adult identity verification flag and provider API key are configured.
 - 1–3 local reference images selected in browser; browser compresses them and holds them only in tab memory until submission.
-- Reference-guided still image generation using \`google/nano-banana-2.1/edit\` on fal.ai at 2K.
+- Reference-guided still image generation using `google/nano-banana-2.1/edit` on fal.ai at 2K.
 - Asynchronous provider queue, signed 12-hour owner-scoped tickets, polling and error display.
 - Creator likeness review of completed assets. Ratings of 98–100 are subjective creator ratings, not measured biometric similarity.
 - Signed approval tokens for reused photos; no video request can start from an unapproved generated still.
-- Image-to-video with \`fal-ai/kling-video/v3/pro/image-to-video\`, producing 5/10/15-second silent clips from creator-reviewed stills.
+- Image-to-video with `fal-ai/kling-video/v3/pro/image-to-video`, producing 5/10/15-second silent clips from creator-reviewed stills.
 - An additional review step for video outputs.
-- Eve tools \`create_alexa_photo\` and \`create_alexa_video\`, each requiring an authenticated allowlisted Better Auth user **and** human approval before a paid call.
+- Eve tools `create_alexa_photo` and `create_alexa_video`, each requiring an authenticated allowlisted Better Auth user **and** human approval before a paid call.
 - Links between the chat and the Studio, including chat-generated queue jobs.
 
 ## Configuration
@@ -25,14 +25,14 @@ The following **server-side** environment variables are required. Never send the
 
 | Variable | Purpose |
 | --- | --- |
-| \`BETTER_AUTH_SECRET\` | Existing application sessions; also a signed-ticket fallback |
-| \`VERCEL_APP_CLIENT_ID\`, \`VERCEL_APP_CLIENT_SECRET\` | Existing login integration |
-| \`ALEXA_STUDIO_ALLOWED_EMAILS\` | Comma-separated creator and authorised-operator emails |
-| \`ALEXA_LIKENESS_CONSENT_RECORD_ID\` | Actual written consent record reference, verified outside code |
-| \`ALEXA_CREATOR_ADULT_VERIFIED=true\` | Operator attestation of documented identity/adult verification |
-| \`STUDIO_SIGNING_SECRET\` | At least 24 characters, separate from session secret |
-| \`FAL_KEY\` | Paid fal.ai account/API key |
-| \`ALEXA_APPROVED_REFERENCE_URLS\` | Optional comma-separated **approved** HTTPS reference URLs for the Eve photo tool |
+| `BETTER_AUTH_SECRET` | Existing application sessions; also a signed-ticket fallback |
+| `VERCEL_APP_CLIENT_ID`, `VERCEL_APP_CLIENT_SECRET` | Existing login integration |
+| `ALEXA_STUDIO_ALLOWED_EMAILS` | Comma-separated creator and authorised-operator emails |
+| `ALEXA_LIKENESS_CONSENT_RECORD_ID` | Actual written consent record reference, verified outside code |
+| `ALEXA_CREATOR_ADULT_VERIFIED=true` | Operator attestation of documented identity/adult verification |
+| `STUDIO_SIGNING_SECRET` | At least 24 characters, separate from session secret |
+| `FAL_KEY` | Paid fal.ai account/API key |
+| `ALEXA_APPROVED_REFERENCE_URLS` | Optional comma-separated **approved** HTTPS reference URLs for the Eve photo tool |
 
 **Important:** Environment variables are declarations by the application operator, not a replacement for identity verification or a signed creator consent record. Do not configure consent until Alexa personally approves scope, provider processing, synthetic images and intended distribution. Obtain separate permission for voice cloning if later added.
 
@@ -40,15 +40,15 @@ A newly provisioned deployment should remain **locked** until consent, age verif
 
 ### Minimal local checks
 
-\`\`\`sh
+```sh
 corepack enable
 pnpm install --frozen-lockfile
 pnpm typecheck
 pnpm build:eve
 pnpm dev
-\`\`\`
+```
 
-Open \`/studio\` with an explicitly allowlisted authenticated account. Production builds and model calls have **not** been run in this response environment, so treat tests as pending until CI and live smoke tests pass.
+Open `/studio` with an explicitly allowlisted authenticated account. Production builds and model calls have **not** been run in this response environment, so treat tests as pending until CI and live smoke tests pass.
 
 ## Studio walkthrough
 
@@ -80,23 +80,23 @@ Even with those controls, perfect identity reproduction cannot be promised.
 
 - Photo: [Nano Banana 2.1 Edit API](https://fal.ai/models/google/nano-banana-2.1/edit/api)
 - Video: [Kling V3 Pro Image-to-Video API](https://fal.ai/models/fal-ai/kling-video/v3/pro/image-to-video/api)
-- Uses fal's documented **queue REST API** via server-to-server \`fetch\`; no new npm dependency, avoiding lockfile drift.
-- The app never returns \`FAL_KEY\` to the browser.
+- Uses fal's documented **queue REST API** via server-to-server `fetch`; no new npm dependency, avoiding lockfile drift.
+- The app never returns `FAL_KEY` to the browser.
 
 ### API endpoints
 
 | Endpoint | Method | Function |
 | --- | --- | --- |
-| \`/api/studio/access\` | GET | Access/config status for authenticated allowed users |
-| \`/api/studio/jobs\` | POST | Submit image or video generation after rights/cost acknowledgement |
-| \`/api/studio/jobs?ticket=...\` | GET | Fetch owner-bound job state and output URL |
-| \`/api/studio/review\` | POST | Recheck a completed job and issue creator-rated approval token |
+| `/api/studio/access` | GET | Access/config status for authenticated allowed users |
+| `/api/studio/jobs` | POST | Submit image or video generation after rights/cost acknowledgement |
+| `/api/studio/jobs?ticket=...` | GET | Fetch owner-bound job state and output URL |
+| `/api/studio/review` | POST | Recheck a completed job and issue creator-rated approval token |
 
 ### Privacy and data retention
 
 - **Current limitation:** uploaded source photos are not persisted in the application's own asset vault. They leave the browser only on explicit submission to fal.ai. The server sends compressed images as base64 data URIs; they may appear in the provider's request history or media retention systems subject to provider policy.
 - Generated files are returned as **provider-hosted URLs**, not private encrypted storage. Do not advertise outputs as encrypted or secret by default.
-- Browser job history contains ticket IDs, prompts, provider output URLs and approval tokens in \`sessionStorage\` (same tab); reference photo bytes are held only in component memory.
+- Browser job history contains ticket IDs, prompts, provider output URLs and approval tokens in `sessionStorage` (same tab); reference photo bytes are held only in component memory.
 - Tokens expire after 12 hours; links may outlive their token according to provider retention. Consent revocation must also be followed up with provider-side retention/deletion requests as applicable.
 - Before production with sensitive creator media, add a private object-storage asset vault, durable audit/approval database, provider-retention controls and dedicated deletion workflows.
 
