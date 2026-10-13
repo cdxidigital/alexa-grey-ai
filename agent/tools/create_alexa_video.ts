@@ -19,7 +19,14 @@ export default defineTool({
     requireStudioConfigured();
     const asset = readAssetTicket(input.approvedPhotoToken, creator.id);
     if (asset.kind !== "photo") throw new StudioError("Video generation requires an approved photo first.", 403);
-    const requestId = await queueMedia("video", videoInput(validatePrompt(input.prompt), asset.url, input.duration));
+    const refs = (process.env.ALEXA_APPROVED_REFERENCE_URLS || "")
+      .split(",").map((url) => url.trim()).filter(Boolean);
+    const usableRefs = refs.length > 0 && refs.length <= 3 &&
+      refs.every((url) => { try { return new URL(url).protocol === "https:"; } catch { return false; } })
+      ? refs : [];
+    const requestId = await queueMedia(
+      "video", videoInput(validatePrompt(input.prompt), asset.url, input.duration, usableRefs)
+    );
     const ticket = createJobTicket(creator.id, "video", requestId);
     return {
       status: "queued",
