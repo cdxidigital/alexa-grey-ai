@@ -2,7 +2,7 @@
 
 import type { UserContent } from "ai";
 import { useEveAgent } from "eve/react";
-import { AlertCircleIcon, BrainIcon, PlusIcon, SquareIcon } from "lucide-react";
+import { AlertCircleIcon, BrainIcon, ClapperboardIcon, PlusIcon, SquareIcon } from "lucide-react";
 import { useState } from "react";
 import {
   Conversation,
@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AgentMessage } from "./agent-message";
 
-const AGENT_NAME = "alexagrey";
+const AGENT_NAME = "Alexa Grey AI";
 
 export function AgentChat({
   sessionId,
@@ -114,7 +114,7 @@ export function AgentChat({
       <PromptInputTextarea
         disabled={isResuming}
         onChange={(event) => setHasInputText(event.currentTarget.value.trim().length > 0)}
-        placeholder="Send a message…"
+        placeholder="Say hello to Alexa…"
       />
       <ComposerAction
         hasInputText={hasInputText}
@@ -180,6 +180,10 @@ export function AgentChat({
         {showConversationLayout ? null : (
           <div className="flex flex-col items-center gap-3 text-center">
             <h1 className="font-medium text-5xl tracking-tighter">{AGENT_NAME}</h1>
+            <p className="max-w-sm text-sm text-muted-foreground">A cheeky chat with Alexa’s AI persona. Not Alexa typing live.</p>
+            <a className="mt-2 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs hover:bg-muted" href="/studio">
+              <ClapperboardIcon className="size-4" /> Creator photo &amp; video studio
+            </a>
           </div>
         )}
         <div className="w-full">{composer}</div>
@@ -241,7 +245,11 @@ function ChatHeader({ canStartNewChat }: { readonly canStartNewChat: boolean }) 
   return (
     <header className="pointer-events-none fixed top-0 right-0 left-0 z-20 h-14">
       <div className="relative mx-auto flex h-full w-full max-w-3xl items-center justify-center bg-background px-24">
-        <span className="truncate text-muted-foreground text-sm">{AGENT_NAME}</span>
+        <span className="truncate text-muted-foreground text-sm">{AGENT_NAME} · AI persona</span>
+        <a className="pointer-events-auto absolute right-24 top-3 flex h-8 items-center gap-1.5 rounded-lg px-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground" href="/studio" title="Creator photo and video studio">
+          <ClapperboardIcon className="size-4" />
+          <span className="hidden sm:inline">Studio</span>
+        </a>
         {canStartNewChat ? (
           <Button
             aria-label="Start a new chat"

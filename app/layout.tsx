@@ -20,8 +20,8 @@ const mono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "alexagrey",
-  description: "A Next.js starter for eve agents with AI Elements.",
+  title: "Alexa Grey AI | Chat with Alexa",
+  description: "Chat with Alexa Grey AI, the cheeky, playful digital persona inspired by Alexa Grey. This is an AI experience, not Alexa typing live.",
 };
 
 // The page and Eve routes validate the generated app's Better Auth session.
