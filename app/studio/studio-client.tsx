@@ -108,8 +108,13 @@ export function StudioClient() {
         ).slice(0, 12);
         setHistory(jobs);
         const fromLink = new URLSearchParams(window.location.search).get("ticket");
-        if (fromLink && jobs.some((job) => job.ticket === fromLink)) setSelected(fromLink);
-        else if (jobs[0]) setSelected(jobs[0].ticket);
+        if (fromLink && /^[A-Za-z0-9_.-]{30,4000}$/.test(fromLink)) {
+          const fromKind = new URLSearchParams(window.location.search).get("kind") === "video" ? "video" : "photo";
+          if (!jobs.some((job) => job.ticket === fromLink)) {
+            setHistory([{ ticket: fromLink, kind: fromKind, status: "queued", createdAt: Date.now(), prompt: "Requested from Alexa chat" }, ...jobs].slice(0, 12));
+          }
+          setSelected(fromLink);
+        } else if (jobs[0]) setSelected(jobs[0].ticket);
       }
     } catch {
       // A malformed storage entry must not block access to the studio.
@@ -455,9 +460,22 @@ export function StudioClient() {
                           </button>
                         </div>
                       )}
-                      {chosen.kind === "photo" && chosen.assetToken &&
-                        <button type="button" className={buttonClass + " w-full bg-[#d4af37] text-black"}
-                          onClick={() => animate(chosen)}><Clapperboard size={16}/> Animate this approved photo</button>}
+                      {chosen.kind === "photo" && chosen.assetToken && (
+                        <div className="space-y-2">
+                          <button type="button" className={buttonClass + " w-full bg-[#d4af37] text-black"}
+                            onClick={() => animate(chosen)}><Clapperboard size={16}/> Animate this approved photo</button>
+                          <button type="button" className={buttonClass + " w-full border border-white/20 text-white/80"}
+                            onClick={() => {
+                              if (chosen.assetToken) {
+                                void navigator.clipboard.writeText(chosen.assetToken)
+                                  .then(() => setMessage("Approval token copied. Give it to Alexa AI privately when requesting a new video."))
+                                  .catch(() => setMessage("Clipboard unavailable. Use the Animate button instead."));
+                              }
+                            }}>
+                            Copy creator approval code for AI chat
+                          </button>
+                        </div>
+                      )}
                     </>
                   )}
                 </div>
