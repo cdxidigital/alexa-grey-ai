@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import {
-  createJobTicket, getMediaJob, photoInput, queueMedia, readAssetTicket,
+  cancelMediaJob, createJobTicket, getMediaJob, photoInput, queueMedia, readAssetTicket,
   readJobTicket, requireSameOrigin, requireStudioConfigured, requireStudioUser,
   StudioError, validatePrompt, validateReference, videoInput,
 } from "@/lib/studio/core";
