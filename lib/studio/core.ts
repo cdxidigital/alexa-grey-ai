@@ -1,6 +1,5 @@
-import "server-only";
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { auth } from "@/lib/auth";
+import { auth } from "../auth";
 
 export const PHOTO_MODEL = "google/nano-banana-2.1/edit";
 export const VIDEO_MODEL = "fal-ai/kling-video/v3/pro/image-to-video";
@@ -69,10 +68,10 @@ export async function requireStudioUser(request: Request): Promise<{ id: string;
 // Eve tools have their own verified principal. Do not trust any role or email
 // that arrives as a prompt/tool argument.
 export function requireStudioPrincipal(
-  principal: { principalId?: string; principalType?: string; attributes?: Record<string, string> } | null | undefined
+  principal: { principalId?: string; principalType?: string; authenticator?: string; attributes?: Record<string, string> } | null | undefined
 ): { id: string; email: string } {
   const email = principal?.attributes?.email;
-  if (principal?.principalType !== "user" || !principal.principalId || !email || !isEmailAllowed(email)) {
+  if (principal?.principalType !== "user" || principal.authenticator !== "better-auth:vercel" || !principal.principalId || !email || !isEmailAllowed(email)) {
     throw new StudioError("Only an authenticated, allowlisted creator may invoke image or video generation.", 403);
   }
   return { id: principal.principalId, email };
