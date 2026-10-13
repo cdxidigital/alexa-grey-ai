@@ -194,6 +194,7 @@ export function StudioClient() {
           }
         : {
             kind: "video", prompt: videoPrompt, approvedPhotoToken: activePhoto?.assetToken || "",
+            references: references.map((item) => item.data),
             duration, rightsAcknowledged: rights, costsAcknowledged: costs,
           };
       const response = await fetch("/api/studio/jobs", {
@@ -335,7 +336,7 @@ export function StudioClient() {
                 <div className="space-y-5">
                   <h2 className="text-lg font-medium">Animate an approved Alexa portrait</h2>
                   <p className="text-sm text-white/60">
-                    Videos begin from an approved AI photo. This reduces identity drift, although facial changes are still possible and each finished clip needs its own review.
+                    Videos begin from an approved AI photo. If this tab still holds authentic reference portraits, Kling also receives those for extra identity consistency. Facial drift is still possible, so every clip needs its own review.
                   </p>
                   <div>
                     <label htmlFor="approved-photo" className="mb-2 block text-sm text-[#eed891]">Starting frame</label>
