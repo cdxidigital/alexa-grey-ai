@@ -219,6 +219,22 @@ export function StudioClient() {
     }
   }
 
+  async function cancelJob(job: Job) {
+    setMessage("");
+    try {
+      const response = await fetch("/api/studio/jobs?ticket=" + encodeURIComponent(job.ticket), {
+        method: "DELETE",
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(errorOf(data));
+      setHistory((items) => items.map((item) => item.ticket === job.ticket
+        ? { ...item, status: "failed", error: "Cancelled by creator." } : item));
+      setMessage("Cancellation requested. Provider billing may still apply to work already started.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Unable to cancel generation.");
+    }
+  }
+
   async function approve() {
     if (!chosen || chosen.status !== "complete" || !chosen.url || rating < 98 || reviewBusy) return;
     setReviewBusy(true);
@@ -424,10 +440,17 @@ export function StudioClient() {
                     <h3 className="font-medium">Selected {chosen.kind}</h3>
                     <span className="text-xs uppercase tracking-widest text-[#d4af37]">{chosen.status}</span>
                   </div>
-                  {(chosen.status === "queued" || chosen.status === "running") &&
-                    <div className="flex items-center gap-2 rounded-lg bg-white/5 p-4 text-sm text-white/70">
-                      <Loader2 size={17} className="animate-spin"/> The model is processing your request…
-                    </div>}
+                  {(chosen.status === "queued" || chosen.status === "running") && (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 rounded-lg bg-white/5 p-4 text-sm text-white/70">
+                        <Loader2 size={17} className="animate-spin"/> The model is processing your request…
+                      </div>
+                      <button type="button" onClick={() => void cancelJob(chosen)}
+                        className={buttonClass + " w-full border border-red-500/30 text-red-200 hover:bg-red-900/15"}>
+                        Cancel generation
+                      </button>
+                    </div>
+                  )}
                   {chosen.error && <p role="alert" className="text-sm text-red-300">{chosen.error}</p>}
                   {chosen.status === "complete" && chosen.url && (
                     <>
