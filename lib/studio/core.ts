@@ -323,6 +323,10 @@ function mediaUrl(result: Record<string, unknown>, kind: StudioKind): string | n
   return typeof url === "string" && isProviderAssetUrl(url) ? url : null;
 }
 
+export async function cancelMediaJob(ticket: JobTicket): Promise<void> {
+  await falFetch(ticket.model + "/requests/" + ticket.requestId + "/cancel", "PUT");
+}
+
 export async function getMediaJob(ticket: JobTicket): Promise<{
   status: "queued" | "running" | "complete" | "failed";
   url?: string;
