@@ -252,10 +252,15 @@ export function photoInput(prompt: string, references: string[], aspectRatio: "3
   };
 }
 
-export function videoInput(prompt: string, startImageUrl: string, duration: 5 | 10 | 15) {
+export function videoInput(prompt: string, startImageUrl: string, duration: 5 | 10 | 15, references: string[] = []) {
+  const identityElements = references.length > 0 ? [{
+    frontal_image_url: references[0],
+    reference_image_urls: references.slice(1),
+  }] : [];
   return {
     prompt: [
       "Faithfully animate the woman in the supplied FIRST FRAME. Preserve her facial identity, hairline, eye shape, proportions and outfit throughout.",
+      ...(identityElements.length ? ["The same creator appears as @Element1; keep the provided identity reference consistent throughout the clip."] : []),
       "Small natural movements: subtle breathing, natural blinks, realistic head turns and soft expressions. No identity drift, extra people, face swaps or body distortions.",
       "Tasteful, fully clothed, non-explicit luxury fashion video.",
       "MOTION AND CAMERA: " + prompt,
@@ -263,6 +268,7 @@ export function videoInput(prompt: string, startImageUrl: string, duration: 5 | 
     start_image_url: startImageUrl,
     duration: String(duration),
     generate_audio: false,
+    ...(identityElements.length ? { elements: identityElements } : {}),
     negative_prompt: "facial morphing, identity drift, extra fingers, warped anatomy, erotic content, low quality, distortion",
   };
 }
