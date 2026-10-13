@@ -69,6 +69,21 @@ export async function POST(request: Request) {
   }
 }
 
+export async function DELETE(request: Request) {
+  try {
+    requireSameOrigin(request);
+    const user = await requireStudioUser(request);
+    requireStudioConfigured();
+    const ticket = new URL(request.url).searchParams.get("ticket");
+    if (!ticket) throw new StudioError("Missing generation ticket.");
+    const job = readJobTicket(ticket, user.id);
+    await cancelMediaJob(job);
+    return NextResponse.json({ status: "cancelled" }, { headers: { "Cache-Control": "no-store" } });
+  } catch (error) {
+    return fail(error);
+  }
+}
+
 export async function GET(request: Request) {
   try {
     const user = await requireStudioUser(request);
