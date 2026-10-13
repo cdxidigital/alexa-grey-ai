@@ -287,6 +287,7 @@ async function falFetch(path: string, method = "GET", input?: Record<string, unk
       signal: controller.signal,
     });
     const data: unknown = await response.json().catch(() => null);
+    if (response.ok && method === "PUT" && data === null) return {};
     if (!response.ok || !data || typeof data !== "object" || Array.isArray(data)) {
       throw new StudioError("Generation provider returned " + response.status + ". Check configuration, limits and provider status.", 502);
     }
