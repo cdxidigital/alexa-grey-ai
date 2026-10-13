@@ -11,7 +11,7 @@
 - Server-side activation only after explicit likeness consent record ID, adult identity verification flag and provider API key are configured.
 - 1–3 local reference images selected in browser; browser compresses them and holds them only in tab memory until submission.
 - Reference-guided still image generation using `google/nano-banana-2.1/edit` on fal.ai at 2K.
-- Asynchronous provider queue, signed 12-hour owner-scoped tickets, polling and error display.
+- Asynchronous provider queue, signed 12-hour owner-scoped tickets, polling, cancellation and error display.
 - Creator likeness review of completed assets. Ratings of 98–100 are subjective creator ratings, not measured biometric similarity.
 - Signed approval tokens for reused photos; no video request can start from an unapproved generated still.
 - Image-to-video with `fal-ai/kling-video/v3/pro/image-to-video`, producing 5/10/15-second silent clips from creator-reviewed stills.
