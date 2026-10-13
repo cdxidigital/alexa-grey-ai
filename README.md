@@ -1,35 +1,53 @@
-# alexagrey
+# Alexa Grey AI
 
-This is an [eve](https://eve.dev) agent bootstrapped with [`eve init`](https://eve.dev/docs/reference/cli#eve-init).
+An Eve-powered conversational AI persona and a restricted, creator-controlled likeness production studio.
 
-## Getting started
+**This is an AI experience, not the human Alexa typing live.** The chat UI labels the persona accordingly and the studio requires explicit creator authorisation.
 
-First, run the development server:
+## Features
 
-```bash
-eve dev
+- Source-grounded Alexa Grey brand voice, cheeky Australian fan banter and transparent AI identification.
+- **/studio** for 1–3 approved reference images, real queued 2K photo generation, likeness review and short 5/10/15-second image-to-video clips.
+- Eve tools for authorised photo/video generation from chat, with human approval for every paid call.
+- Consent, identity and operator allowlist controls; signed, owner-bound job and media tokens.
+- Draft influencer content at `agent/content/alexa-content-starter-pack.md`; source material at `agent/knowledge/alexa-website-sourcebook.md`.
+
+## Setup
+
+Requirements: Node 24, pnpm, a working Vercel login/Better Auth configuration, a fal.ai API key, creator-approved reference media, a verified adult creator, and a genuine explicit likeness permission record.
+
+```sh
+corepack enable
+pnpm install --frozen-lockfile
+cp .env.example .env.local
+# Configure the required server-side variables in .env.local
+pnpm typecheck
+pnpm build:eve
+pnpm dev
 ```
 
-The development TUI opens an interactive session where you can send messages to your agent.
+Open `/` for the chat and `/studio` for restricted creator media production.
 
-Start by editing `agent/instructions.md` to define the agent's identity, purpose, tone, and response guidelines. Configure its model and runtime behavior in `agent/agent.ts`.
+**Do not set the consent-related environment variables until the creator has personally authorised the intended likeness use and third-party media processing.**
 
-Add capabilities under `agent/`, including tools, connections, channels, skills, subagents, and schedules. eve reloads your changes as you work.
+For detailed setup, API models, paid usage, image/video workflow, privacy limitations, revocation caveats and QA, read **[Likeness Studio Guide](docs/likeness-studio.md)**.
 
-## Learn more
+## Source and authorisation boundaries
 
-To learn more about eve, explore these resources:
+The Alexa Grey public brand profile is reconstructed from first-party [site-data.ts](https://github.com/cdxidigital/alexagrey-2026/blob/main/src/lib/site-data.ts) and related site source. Live `alexagrey.fleshsesh.fans` content was not fully accessible to this authoring environment at the time of the original research, so current rates, ages, whereabouts, authentic image rights and new updates must be verified separately.
 
-- [eve documentation](https://eve.dev/docs) — learn about eve's features and authoring APIs.
-- [Build an Agent tutorial](https://eve.dev/docs/tutorial/first-agent) — build and deploy an agent step by step.
-- [eve on GitHub](https://github.com/vercel/eve) — view the source and contribute.
+A 98–100% likeness is a **target**, not something we can guarantee, nor a scientific percentage proven by the creator-review slider.
 
-## Deploy on Vercel
+Media generation is **non-explicit** and initially confined to authorised accounts. Do not create explicit synthetic sexual content of a real person.
 
-Deploy your agent to [Vercel](https://vercel.com) from the project root:
+## Testing and release state
 
-```bash
-eve deploy
-```
+This repository includes a GitHub Actions CI workflow for installation, TypeScript and Eve build checks. All real provider calls require legitimate configured credentials and may incur charges. CI never sends a paid image or video request.
 
-`eve deploy` links a Vercel project if needed and deploys the agent to production. See the [eve deployment documentation](https://eve.dev/docs/guides/deployment/vercel) for authentication, environment variables, and deployment options.
+Until live smoke tests, manual likeness review, creator approval, private asset storage, audit records and durable provider-spend limits are completed, treat this feature as a **consent-gated beta implementation**, not a production-ready media vault.
+
+## Framework
+
+The agent runs on [Eve](https://eve.dev), and the web app is [Next.js](https://nextjs.org).
+
+To run the Eve console, use `pnpm dev:eve`. To deploy via the configured project, use `pnpm deploy` only after confirming the intended Vercel environment and successful checks.
