@@ -21,6 +21,7 @@ const videoSchema = z.object({
   kind: z.literal("video"),
   prompt: z.string(),
   approvedPhotoToken: z.string().min(20),
+  references: z.array(z.string()).max(3).optional(),
   duration: z.union([z.literal(5), z.literal(10), z.literal(15)]),
   rightsAcknowledged: z.literal(true),
   costsAcknowledged: z.literal(true),
@@ -56,7 +57,7 @@ export async function POST(request: Request) {
     } else {
       const asset = readAssetTicket(parsed.approvedPhotoToken, user.id);
       if (asset.kind !== "photo") throw new StudioError("Video creation requires an approved photo first.", 403);
-      input = videoInput(prompt, asset.url, parsed.duration);
+      input = videoInput(prompt, asset.url, parsed.duration, parsed.references?.map(validateReference) || []);
     }
     const requestId = await queueMedia(parsed.kind, input);
     return NextResponse.json(
