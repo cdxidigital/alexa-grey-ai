@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "template_version": "1.0.0",
+  "project": "Ellie May AI Concierge",
+  "release": "v0.1 internal prototype",
+  "mode": "Extended",
+  "updated_at": "2026-11-08T10:46:00+08:00",
+  "readiness": "building",
+  "source": "https://github.com/cdxidigital/alexa-grey-ai/tree/cdxi/ellie-ai-concierge-v1",
+  "revision": "cdxi/ellie-ai-concierge-v1",
+  "stages": [
+    {
+      "id": 1,
+      "name": "Brief",
+      "status": "passed",
+      "evidence": [
+        "agent/ELLIE_CONCIERGE_POLICY.md"
+      ],
+      "reason": ""
+    },
+    {
+      "id": 2,
+      "name": "Roadmap",
+      "status": "passed",
+      "evidence": [
+        "agent/ELLIE_CONCIERGE_POLICY.md"
+      ],
+      "reason": ""
+    },
+    {
+      "id": 3,
+      "name": "Design",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    },
+    {
+      "id": 4,
+      "name": "Foundation",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    },
+    {
+      "id": 5,
+      "name": "Build",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    },
+    {
+      "id": 6,
+      "name": "Verify",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    },
+    {
+      "id": 7,
+      "name": "Release",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    },
+    {
+      "id": 8,
+      "name": "Handover",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Document consent-first release brief",
+      "stage": 1,
+      "points": 1,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Document consent-first release brief",
+      "depends_on": [],
+      "evidence": [
+        "agent/ELLIE_CONCIERGE_POLICY.md committed on branch"
+      ]
+    },
+    {
+      "id": "T02",
+      "title": "Define Now/Next/Later and handoff gates",
+      "stage": 2,
+      "points": 1,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Define Now/Next/Later and handoff gates",
+      "depends_on": [],
+      "evidence": [
+        "agent/ELLIE_CONCIERGE_POLICY.md committed on branch"
+      ]
+    },
+    {
+      "id": "T03",
+      "title": "Implement bounded lead-screening function",
+      "stage": 5,
+      "points": 3,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Implement bounded lead-screening function",
+      "depends_on": [],
+      "evidence": [
+        "agent/lead-triage.mjs committed on branch"
+      ]
+    },
+    {
+      "id": "T04",
+      "title": "Add behavior and negative-case regression tests",
+      "stage": 6,
+      "points": 2,
+      "status": "unverified",
+      "owner": "cdxi development",
+      "acceptance": "Add behavior and negative-case regression tests",
+      "depends_on": [],
+      "evidence": [
+        "test file committed; execution not yet verified"
+      ]
+    },
+    {
+      "id": "T05",
+      "title": "Wire authenticated handoff and storage",
+      "stage": 4,
+      "points": 5,
+      "status": "todo",
+      "owner": "cdxi development",
+      "acceptance": "Wire authenticated handoff and storage",
+      "depends_on": [],
+      "evidence": []
+    },
+    {
+      "id": "T06",
+      "title": "Integrate chat with site and Eve agent",
+      "stage": 5,
+      "points": 5,
+      "status": "todo",
+      "owner": "cdxi development",
+      "acceptance": "Integrate chat with site and Eve agent",
+      "depends_on": [],
+      "evidence": []
+    },
+    {
+      "id": "T07",
+      "title": "Implement compliant real-time telephony",
+      "stage": 5,
+      "points": 5,
+      "status": "blocked",
+      "owner": "cdxi development",
+      "acceptance": "Implement compliant real-time telephony",
+      "depends_on": [],
+      "evidence": [
+        "requires consent, vendor and legal approvals"
+      ]
+    },
+    {
+      "id": "T08",
+      "title": "Verify and prepare private preview",
+      "stage": 6,
+      "points": 3,
+      "status": "todo",
+      "owner": "cdxi development",
+      "acceptance": "Verify and prepare private preview",
+      "depends_on": [],
+      "evidence": []
+    },
+    {
+      "id": "T09",
+      "title": "Release with creator sign-off",
+      "stage": 7,
+      "points": 2,
+      "status": "blocked",
+      "owner": "cdxi development",
+      "acceptance": "Release with creator sign-off",
+      "depends_on": [],
+      "evidence": [
+        "creator/legal approval required"
+      ]
+    },
+    {
+      "id": "T10",
+      "title": "Handover and operational monitoring",
+      "stage": 8,
+      "points": 2,
+      "status": "todo",
+      "owner": "cdxi development",
+      "acceptance": "Handover and operational monitoring",
+      "depends_on": [],
+      "evidence": []
+    }
+  ],
+  "next_action": "Verify triage tests; integrate with Eve agent and website only after permissions review.",
+  "blockers": [
+    {
+      "owner": "Ellie May",
+      "reason": "specific AI and voice consent pending"
+    },
+    {
+      "owner": "legal/compliance reviewer",
+      "reason": "WA/interstate and platform compliance review required"
+    }
+  ],
+  "scope_history": [
+    {
+      "date": "2026-11-08",
+      "decision": "v0.1 internal triage prototype; telephony and production website integration later"
+    }
+  ]
+}
