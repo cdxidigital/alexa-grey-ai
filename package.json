@@ -15,7 +15,8 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "build:eve": "eve build",
     "dev:eve": "eve dev",
-    "start:eve": "eve start"
+    "start:eve": "eve start",
+    "test:concierge": "node --test agent/lead-triage.test.mjs lib/concierge/access.test.mjs"
   },
   "dependencies": {
     "@vercel/connect": "0.4.2",
