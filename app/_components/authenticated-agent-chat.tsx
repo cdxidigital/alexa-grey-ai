@@ -1,5 +1,7 @@
 import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { canAccessConcierge } from "@/lib/concierge/access.mjs";
 import { AgentChat } from "./agent-chat";
 import { AccountControl, SignIn } from "./web-chat-auth";
 
@@ -10,12 +12,11 @@ export async function AuthenticatedAgentChat({
   readonly sessionId?: string;
   readonly sessionless?: boolean;
 }) {
-  if (process.env.NODE_ENV === "development") {
-    return <AgentChat sessionId={sessionId} sessionless={sessionless} />;
-  }
-
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return <SignIn />;
+  if (!canAccessConcierge(session.user.id, process.env.ELLIE_ADMIN_USER_IDS)) {
+    notFound();
+  }
 
   return (
     <>

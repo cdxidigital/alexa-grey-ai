@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/lib/auth-client";
 
-const AGENT_NAME = "alexagrey";
+const AGENT_NAME = "Ellie May AI · operator preview";
 
 export function SignIn() {
   const [pending, setPending] = useState(false);
@@ -51,7 +51,7 @@ export function SignIn() {
             <span aria-hidden="true" className="text-border">
               /
             </span>
-            <span>Sign in to start a session</span>
+            <span>Authorised operators only</span>
           </p>
           <Button className="mt-3 w-full gap-2 text-sm" disabled={pending} onClick={signIn}>
             <svg aria-hidden="true" className="size-3 fill-current" viewBox="0 0 24 20">

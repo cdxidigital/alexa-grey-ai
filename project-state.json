@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "template_version": "1.0.0",
+  "project": "Ellie May AI Concierge",
+  "release": "v0.1 internal prototype",
+  "mode": "Extended",
+  "updated_at": "2026-11-08T03:17:40.260Z",
+  "readiness": "building",
+  "source": "https://github.com/cdxidigital/alexa-grey-ai/tree/cdxi/ellie-ai-concierge-v1",
+  "revision": "cdxi/ellie-ai-concierge-v1",
+  "stages": [
+    {
+      "id": 1,
+      "name": "Brief",
+      "status": "passed",
+      "evidence": [
+        "agent/ELLIE_CONCIERGE_POLICY.md"
+      ],
+      "reason": ""
+    },
+    {
+      "id": 2,
+      "name": "Roadmap",
+      "status": "passed",
+      "evidence": [
+        "PROJECT.md"
+      ],
+      "reason": ""
+    },
+    {
+      "id": 3,
+      "name": "Design",
+      "status": "passed",
+      "evidence": [
+        "app/concierge/_components/concierge-desk.tsx and browser-tested standalone preview"
+      ],
+      "reason": ""
+    },
+    {
+      "id": 4,
+      "name": "Foundation",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    },
+    {
+      "id": 5,
+      "name": "Build",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    },
+    {
+      "id": 6,
+      "name": "Verify",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    },
+    {
+      "id": 7,
+      "name": "Release",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    },
+    {
+      "id": 8,
+      "name": "Handover",
+      "status": "pending",
+      "evidence": [],
+      "reason": ""
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Consent-first brief",
+      "stage": 1,
+      "points": 1,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Consent-first brief",
+      "depends_on": [],
+      "evidence": [
+        "agent/ELLIE_CONCIERGE_POLICY.md on branch"
+      ]
+    },
+    {
+      "id": "T02",
+      "title": "Release scope and sequence",
+      "stage": 2,
+      "points": 1,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Release scope and sequence",
+      "depends_on": [
+        "T01"
+      ],
+      "evidence": [
+        "PROJECT.md and policy on branch"
+      ]
+    },
+    {
+      "id": "T03",
+      "title": "Correct and implement deterministic triage",
+      "stage": 5,
+      "points": 3,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Correct and implement deterministic triage",
+      "depends_on": [
+        "T02"
+      ],
+      "evidence": [
+        "agent/lead-triage.mjs; 14 local Node tests pass"
+      ]
+    },
+    {
+      "id": "T04",
+      "title": "Test triage and access negative cases",
+      "stage": 6,
+      "points": 2,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Test triage and access negative cases",
+      "depends_on": [
+        "T03"
+      ],
+      "evidence": [
+        "19/19 local Node tests pass; package test:concierge script"
+      ]
+    },
+    {
+      "id": "T05a",
+      "title": "Private operator access and demonstration endpoint",
+      "stage": 4,
+      "points": 2,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Private operator access and demonstration endpoint",
+      "depends_on": [
+        "T02"
+      ],
+      "evidence": [
+        "app/api/concierge/preview/route.ts; lib/concierge/access.mjs; access tests"
+      ]
+    },
+    {
+      "id": "T05b1",
+      "title": "Implement encrypted, synthetic-only queue contracts and test them",
+      "stage": 4,
+      "points": 1,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Implement encrypted, synthetic-only queue contracts and test them",
+      "depends_on": [
+        "T05a"
+      ],
+      "evidence": [
+        "lib/concierge/secure-queue.mjs and queue-store.mjs on PR #3; 28 new local tests passed"
+      ]
+    },
+    {
+      "id": "T05b2",
+      "title": "Verify isolated Postgres database and compliant customer handoff",
+      "stage": 4,
+      "points": 2,
+      "status": "blocked",
+      "owner": "cdxi development",
+      "acceptance": "Verify isolated Postgres database and compliant customer handoff",
+      "depends_on": [
+        "T05b1"
+      ],
+      "evidence": [
+        "Pending lockfile generation, live test database and creator privacy authorisation"
+      ]
+    },
+    {
+      "id": "T06a",
+      "title": "Rebrand existing Eve text agent as disclosed internal Ellie draft",
+      "stage": 5,
+      "points": 2,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Rebrand existing Eve text agent as disclosed internal Ellie draft",
+      "depends_on": [
+        "T05a"
+      ],
+      "evidence": [
+        "agent/instructions.md; agent/channels/eve.ts; app identity updates"
+      ]
+    },
+    {
+      "id": "T06b1",
+      "title": "Wire private operator queue controls into Ellie desk",
+      "stage": 5,
+      "points": 1,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Wire private operator queue controls into Ellie desk",
+      "depends_on": [
+        "T05a",
+        "T06a"
+      ],
+      "evidence": [
+        "app/concierge/_components/queue-panel.tsx imported into concierge-desk.tsx; TS syntax check and offline UI QA"
+      ]
+    },
+    {
+      "id": "T06b2",
+      "title": "Connect approved Eve chat and website enquiry pipeline",
+      "stage": 5,
+      "points": 2,
+      "status": "blocked",
+      "owner": "cdxi development",
+      "acceptance": "Connect approved Eve chat and website enquiry pipeline",
+      "depends_on": [
+        "T05b2",
+        "T06b1"
+      ],
+      "evidence": [
+        "Production integrations and current creator-approved content pending"
+      ]
+    },
+    {
+      "id": "T07",
+      "title": "Consent-approved live telephony",
+      "stage": 5,
+      "points": 5,
+      "status": "blocked",
+      "owner": "cdxi / creator / compliance",
+      "acceptance": "Consent-approved live telephony",
+      "depends_on": [
+        "T06b2"
+      ],
+      "evidence": [
+        "specific voice rights, carrier, recording and legal approvals needed"
+      ]
+    },
+    {
+      "id": "T08a",
+      "title": "Build and browser-test offline private simulator",
+      "stage": 6,
+      "points": 2,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Build and browser-test offline private simulator",
+      "depends_on": [
+        "T03"
+      ],
+      "evidence": [
+        "ellie-may-concierge-preview.html: 360,390,768,1024,1440 px browser pass"
+      ]
+    },
+    {
+      "id": "T08b",
+      "title": "Install/build/typecheck and stage protected Next app",
+      "stage": 6,
+      "points": 1,
+      "status": "todo",
+      "owner": "cdxi development",
+      "acceptance": "Install/build/typecheck and stage protected Next app",
+      "depends_on": [
+        "T05a",
+        "T06a"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "T09",
+      "title": "Obtain creator sign-off and controlled release",
+      "stage": 7,
+      "points": 2,
+      "status": "blocked",
+      "owner": "cdxi / creator / compliance",
+      "acceptance": "Obtain creator sign-off and controlled release",
+      "depends_on": [
+        "T07",
+        "T08b"
+      ],
+      "evidence": [
+        "creator/legal authorisation pending"
+      ]
+    },
+    {
+      "id": "T10",
+      "title": "Operational handover and monitoring",
+      "stage": 8,
+      "points": 2,
+      "status": "todo",
+      "owner": "cdxi development",
+      "acceptance": "Operational handover and monitoring",
+      "depends_on": [
+        "T09"
+      ],
+      "evidence": []
+    }
+  ],
+  "next_action": "Regenerate pnpm lock with the declared pg dependencies in Node 24; run full typecheck, build and DB migration in an authorised isolated staging environment; test denied/allowed role access before enabling synthetic queue.",
+  "blockers": [
+    {
+      "owner": "cdxi development",
+      "reason": "pnpm lock is stale after pg dependency addition; networked Node 24 install/build pending"
+    },
+    {
+      "owner": "cdxi infrastructure",
+      "reason": "isolated Postgres database, allowed Better Auth operator IDs and secrets have not been configured"
+    },
+    {
+      "owner": "Ellie May",
+      "reason": "specific text persona and voice consent, approved script, knowledge and commercial boundary sign-off pending"
+    },
+    {
+      "owner": "qualified compliance review",
+      "reason": "Australian privacy, WA telephone recording, advertising, age-assurance and AI vendor constraints not cleared"
+    }
+  ],
+  "scope_history": [
+    {
+      "date": "2026-11-08",
+      "decision": "Existing v0.1 internal triage prototype; live telephony and production gated beyond current working slice",
+      "points": 29
+    },
+    {
+      "date": "2026-11-08",
+      "decision": "Split original T05, T06 and T08 into independently testable subtasks; denominator unchanged",
+      "before_points": 29,
+      "after_points": 29
+    },
+    {
+      "date": "2026-11-08",
+      "decision": "Split T05b and T06b into synthetic-only tested contracts and blocked live integrations. No scope reduction; 29 points before and after.",
+      "before_points": 29,
+      "after_points": 29
+    }
+  ]
+}
