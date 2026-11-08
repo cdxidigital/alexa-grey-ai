@@ -1,0 +1,11 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {triageEnquiry} from "./lead-triage.mjs";
+const good={channel:"web",category:"collaboration",contact:"partner@example.org",purpose:"Discuss a brand partnership",timeline:"Next month",adultAttested:true};
+test("qualified enquiries remain human-reviewed",()=>{const r=triageEnquiry(good);assert.equal(r.disposition,"qualified_for_human_review");assert.equal(r.automaticBookingAllowed,false);});
+test("missing contact stays in needs-information lane",()=>assert.equal(triageEnquiry({...good,contact:""}).disposition,"needs_information"));
+test("age attestation is not verification",()=>{const r=triageEnquiry({...good,adultAttested:false});assert.equal(r.disposition,"needs_information");assert.equal(r.adultAttestationOnly,false)});
+test("safety signal overrides qualification",()=>assert.equal(triageEnquiry({...good,threatOrHarassment:true}).disposition,"safety_review"));
+test("unapproved commercial claim requires human review",()=>assert.equal(triageEnquiry({...good,requestsUnapprovedOffer:true}).disposition,"human_review"));
+test("no raw contact or enquiry text appears in triage output",()=>{const r=JSON.stringify(triageEnquiry(good));assert.equal(r.includes("partner@example.org"),false);assert.equal(r.includes("Discuss a brand"),false)});
+test("rejects malformed input",()=>assert.throws(()=>triageEnquiry(null),TypeError));
