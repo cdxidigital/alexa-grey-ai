@@ -26,6 +26,9 @@ export async function POST(request: NextRequest): Promise<Response> {
     const raw = await request.text();
     if (raw.length > 8_000) return noStore({ error: 'Request too large' }, 413);
     const input: unknown = JSON.parse(raw);
+    if (!input || typeof input !== 'object' || Array.isArray(input)) {
+      return noStore({ error: 'Enquiry must be an object' }, 422);
+    }
     const result = triageEnquiry(input);
     return noStore({ previewOnly: true, dataPersisted: false, result });
   } catch {
