@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AgentMessage } from "./agent-message";
 
-const AGENT_NAME = "alexagrey";
+const AGENT_NAME = "Ellie May AI · internal";
 
 export function AgentChat({
   sessionId,
@@ -179,7 +179,8 @@ export function AgentChat({
       >
         {showConversationLayout ? null : (
           <div className="flex flex-col items-center gap-3 text-center">
-            <h1 className="font-medium text-5xl tracking-tighter">{AGENT_NAME}</h1>
+            <h1 className="font-medium text-4xl tracking-tight">{AGENT_NAME}</h1>
+            <p className="max-w-sm text-center text-sm text-muted-foreground">Disclosed AI concierge in a private development preview. Not Ellie herself. No live calls or customer submissions.</p>
           </div>
         )}
         <div className="w-full">{composer}</div>
@@ -241,7 +242,7 @@ function ChatHeader({ canStartNewChat }: { readonly canStartNewChat: boolean }) 
   return (
     <header className="pointer-events-none fixed top-0 right-0 left-0 z-20 h-14">
       <div className="relative mx-auto flex h-full w-full max-w-3xl items-center justify-center bg-background px-24">
-        <span className="truncate text-muted-foreground text-sm">{AGENT_NAME}</span>
+        <span className="truncate text-muted-foreground text-sm">{AGENT_NAME} · disclosed synthetic assistant</span>
         {canStartNewChat ? (
           <Button
             aria-label="Start a new chat"
