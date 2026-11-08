@@ -4,7 +4,7 @@
   "project": "Ellie May AI Concierge",
   "release": "v0.1 internal prototype",
   "mode": "Extended",
-  "updated_at": "2026-11-08T10:46:00+08:00",
+  "updated_at": "2026-11-08T03:03:36.140Z",
   "readiness": "building",
   "source": "https://github.com/cdxidigital/alexa-grey-ai/tree/cdxi/ellie-ai-concierge-v1",
   "revision": "cdxi/ellie-ai-concierge-v1",
@@ -23,15 +23,17 @@
       "name": "Roadmap",
       "status": "passed",
       "evidence": [
-        "agent/ELLIE_CONCIERGE_POLICY.md"
+        "PROJECT.md"
       ],
       "reason": ""
     },
     {
       "id": 3,
       "name": "Design",
-      "status": "pending",
-      "evidence": [],
+      "status": "passed",
+      "evidence": [
+        "app/concierge/_components/concierge-desk.tsx and browser-tested standalone preview"
+      ],
       "reason": ""
     },
     {
@@ -73,142 +75,221 @@
   "tasks": [
     {
       "id": "T01",
-      "title": "Document consent-first release brief",
+      "title": "Consent-first brief",
       "stage": 1,
       "points": 1,
       "status": "done",
       "owner": "cdxi development",
-      "acceptance": "Document consent-first release brief",
+      "acceptance": "Consent-first brief",
       "depends_on": [],
       "evidence": [
-        "agent/ELLIE_CONCIERGE_POLICY.md committed on branch"
+        "agent/ELLIE_CONCIERGE_POLICY.md on branch"
       ]
     },
     {
       "id": "T02",
-      "title": "Define Now/Next/Later and handoff gates",
+      "title": "Release scope and sequence",
       "stage": 2,
       "points": 1,
       "status": "done",
       "owner": "cdxi development",
-      "acceptance": "Define Now/Next/Later and handoff gates",
-      "depends_on": [],
+      "acceptance": "Release scope and sequence",
+      "depends_on": [
+        "T01"
+      ],
       "evidence": [
-        "agent/ELLIE_CONCIERGE_POLICY.md committed on branch"
+        "PROJECT.md and policy on branch"
       ]
     },
     {
       "id": "T03",
-      "title": "Implement bounded lead-screening function",
+      "title": "Correct and implement deterministic triage",
       "stage": 5,
       "points": 3,
       "status": "done",
       "owner": "cdxi development",
-      "acceptance": "Implement bounded lead-screening function",
-      "depends_on": [],
+      "acceptance": "Correct and implement deterministic triage",
+      "depends_on": [
+        "T02"
+      ],
       "evidence": [
-        "agent/lead-triage.mjs committed on branch"
+        "agent/lead-triage.mjs; 14 local Node tests pass"
       ]
     },
     {
       "id": "T04",
-      "title": "Add behavior and negative-case regression tests",
+      "title": "Test triage and access negative cases",
       "stage": 6,
       "points": 2,
-      "status": "unverified",
+      "status": "done",
       "owner": "cdxi development",
-      "acceptance": "Add behavior and negative-case regression tests",
-      "depends_on": [],
+      "acceptance": "Test triage and access negative cases",
+      "depends_on": [
+        "T03"
+      ],
       "evidence": [
-        "test file committed; execution not yet verified"
+        "19/19 local Node tests pass; package test:concierge script"
       ]
     },
     {
-      "id": "T05",
-      "title": "Wire authenticated handoff and storage",
+      "id": "T05a",
+      "title": "Private operator access and demonstration endpoint",
       "stage": 4,
-      "points": 5,
-      "status": "todo",
+      "points": 2,
+      "status": "done",
       "owner": "cdxi development",
-      "acceptance": "Wire authenticated handoff and storage",
-      "depends_on": [],
-      "evidence": []
+      "acceptance": "Private operator access and demonstration endpoint",
+      "depends_on": [
+        "T02"
+      ],
+      "evidence": [
+        "app/api/concierge/preview/route.ts; lib/concierge/access.mjs; access tests"
+      ]
     },
     {
-      "id": "T06",
-      "title": "Integrate chat with site and Eve agent",
+      "id": "T05b",
+      "title": "Encrypted storage and authenticated customer handoff",
+      "stage": 4,
+      "points": 3,
+      "status": "blocked",
+      "owner": "cdxi / creator / compliance",
+      "acceptance": "Encrypted storage and authenticated customer handoff",
+      "depends_on": [
+        "T05a"
+      ],
+      "evidence": [
+        "pending data retention rules and persistence design"
+      ]
+    },
+    {
+      "id": "T06a",
+      "title": "Rebrand existing Eve text agent as disclosed internal Ellie draft",
       "stage": 5,
-      "points": 5,
+      "points": 2,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Rebrand existing Eve text agent as disclosed internal Ellie draft",
+      "depends_on": [
+        "T05a"
+      ],
+      "evidence": [
+        "agent/instructions.md; agent/channels/eve.ts; app identity updates"
+      ]
+    },
+    {
+      "id": "T06b",
+      "title": "Connect reviewed Eve chat and website enquiry pipeline",
+      "stage": 5,
+      "points": 3,
       "status": "todo",
       "owner": "cdxi development",
-      "acceptance": "Integrate chat with site and Eve agent",
-      "depends_on": [],
+      "acceptance": "Connect reviewed Eve chat and website enquiry pipeline",
+      "depends_on": [
+        "T05b",
+        "T06a"
+      ],
       "evidence": []
     },
     {
       "id": "T07",
-      "title": "Implement compliant real-time telephony",
+      "title": "Consent-approved live telephony",
       "stage": 5,
       "points": 5,
       "status": "blocked",
-      "owner": "cdxi development",
-      "acceptance": "Implement compliant real-time telephony",
-      "depends_on": [],
+      "owner": "cdxi / creator / compliance",
+      "acceptance": "Consent-approved live telephony",
+      "depends_on": [
+        "T06b"
+      ],
       "evidence": [
-        "requires consent, vendor and legal approvals"
+        "specific voice rights, carrier, recording and legal approvals needed"
       ]
     },
     {
-      "id": "T08",
-      "title": "Verify and prepare private preview",
+      "id": "T08a",
+      "title": "Build and browser-test offline private simulator",
       "stage": 6,
-      "points": 3,
+      "points": 2,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Build and browser-test offline private simulator",
+      "depends_on": [
+        "T03"
+      ],
+      "evidence": [
+        "ellie-may-concierge-preview.html: 360,390,768,1024,1440 px browser pass"
+      ]
+    },
+    {
+      "id": "T08b",
+      "title": "Install/build/typecheck and stage protected Next app",
+      "stage": 6,
+      "points": 1,
       "status": "todo",
       "owner": "cdxi development",
-      "acceptance": "Verify and prepare private preview",
-      "depends_on": [],
+      "acceptance": "Install/build/typecheck and stage protected Next app",
+      "depends_on": [
+        "T05a",
+        "T06a"
+      ],
       "evidence": []
     },
     {
       "id": "T09",
-      "title": "Release with creator sign-off",
+      "title": "Obtain creator sign-off and controlled release",
       "stage": 7,
       "points": 2,
       "status": "blocked",
-      "owner": "cdxi development",
-      "acceptance": "Release with creator sign-off",
-      "depends_on": [],
+      "owner": "cdxi / creator / compliance",
+      "acceptance": "Obtain creator sign-off and controlled release",
+      "depends_on": [
+        "T07",
+        "T08b"
+      ],
       "evidence": [
-        "creator/legal approval required"
+        "creator/legal authorisation pending"
       ]
     },
     {
       "id": "T10",
-      "title": "Handover and operational monitoring",
+      "title": "Operational handover and monitoring",
       "stage": 8,
       "points": 2,
       "status": "todo",
       "owner": "cdxi development",
-      "acceptance": "Handover and operational monitoring",
-      "depends_on": [],
+      "acceptance": "Operational handover and monitoring",
+      "depends_on": [
+        "T09"
+      ],
       "evidence": []
     }
   ],
-  "next_action": "Verify triage tests; integrate with Eve agent and website only after permissions review.",
+  "next_action": "Run Node 24 dependency install, Next/Eve typecheck/build; configure creator-specific admin IDs in private environment; wire encrypted human handoff once approved.",
   "blockers": [
     {
       "owner": "Ellie May",
-      "reason": "specific AI and voice consent pending"
+      "reason": "Specific written public persona and cloned-voice permission, approved script and business boundaries pending"
     },
     {
-      "owner": "legal/compliance reviewer",
-      "reason": "WA/interstate and platform compliance review required"
+      "owner": "Compliance reviewer",
+      "reason": "Telephony recording, privacy, adult advertising and vendor terms review pending"
+    },
+    {
+      "owner": "cdxi",
+      "reason": "Better Auth operator allowlist and secure data storage not configured"
     }
   ],
   "scope_history": [
     {
       "date": "2026-11-08",
-      "decision": "v0.1 internal triage prototype; telephony and production website integration later"
+      "decision": "Existing v0.1 internal triage prototype; live telephony and production gated beyond current working slice",
+      "points": 29
+    },
+    {
+      "date": "2026-11-08",
+      "decision": "Split original T05, T06 and T08 into independently testable subtasks; denominator unchanged",
+      "before_points": 29,
+      "after_points": 29
     }
   ]
 }
