@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { QueuePanel } from "./queue-panel";
 
 type Sample = {
   id: string;
@@ -197,6 +198,7 @@ export function ConciergeDesk() {
             )}
           </section>
         </div>
+        <QueuePanel />
         <footer className="border-t border-[#4a4030] pt-7 text-sm leading-6 text-[#bdb3a4]">
           <p>Ellie May's approved real voice and public persona require separately documented permission before use. This sandbox has no telephony provider, customer storage or public chat widget.</p>
         </footer>
