@@ -4,7 +4,7 @@
   "project": "Ellie May AI Concierge",
   "release": "v0.1 internal prototype",
   "mode": "Extended",
-  "updated_at": "2026-11-08T03:03:36.140Z",
+  "updated_at": "2026-11-08T03:17:40.260Z",
   "readiness": "building",
   "source": "https://github.com/cdxidigital/alexa-grey-ai/tree/cdxi/ellie-ai-concierge-v1",
   "revision": "cdxi/ellie-ai-concierge-v1",
@@ -147,18 +147,33 @@
       ]
     },
     {
-      "id": "T05b",
-      "title": "Encrypted storage and authenticated customer handoff",
+      "id": "T05b1",
+      "title": "Implement encrypted, synthetic-only queue contracts and test them",
       "stage": 4,
-      "points": 3,
-      "status": "blocked",
-      "owner": "cdxi / creator / compliance",
-      "acceptance": "Encrypted storage and authenticated customer handoff",
+      "points": 1,
+      "status": "done",
+      "owner": "cdxi development",
+      "acceptance": "Implement encrypted, synthetic-only queue contracts and test them",
       "depends_on": [
         "T05a"
       ],
       "evidence": [
-        "pending data retention rules and persistence design"
+        "lib/concierge/secure-queue.mjs and queue-store.mjs on PR #3; 28 new local tests passed"
+      ]
+    },
+    {
+      "id": "T05b2",
+      "title": "Verify isolated Postgres database and compliant customer handoff",
+      "stage": 4,
+      "points": 2,
+      "status": "blocked",
+      "owner": "cdxi development",
+      "acceptance": "Verify isolated Postgres database and compliant customer handoff",
+      "depends_on": [
+        "T05b1"
+      ],
+      "evidence": [
+        "Pending lockfile generation, live test database and creator privacy authorisation"
       ]
     },
     {
@@ -177,18 +192,36 @@
       ]
     },
     {
-      "id": "T06b",
-      "title": "Connect reviewed Eve chat and website enquiry pipeline",
+      "id": "T06b1",
+      "title": "Wire private operator queue controls into Ellie desk",
       "stage": 5,
-      "points": 3,
-      "status": "todo",
+      "points": 1,
+      "status": "done",
       "owner": "cdxi development",
-      "acceptance": "Connect reviewed Eve chat and website enquiry pipeline",
+      "acceptance": "Wire private operator queue controls into Ellie desk",
       "depends_on": [
-        "T05b",
+        "T05a",
         "T06a"
       ],
-      "evidence": []
+      "evidence": [
+        "app/concierge/_components/queue-panel.tsx imported into concierge-desk.tsx; TS syntax check and offline UI QA"
+      ]
+    },
+    {
+      "id": "T06b2",
+      "title": "Connect approved Eve chat and website enquiry pipeline",
+      "stage": 5,
+      "points": 2,
+      "status": "blocked",
+      "owner": "cdxi development",
+      "acceptance": "Connect approved Eve chat and website enquiry pipeline",
+      "depends_on": [
+        "T05b2",
+        "T06b1"
+      ],
+      "evidence": [
+        "Production integrations and current creator-approved content pending"
+      ]
     },
     {
       "id": "T07",
@@ -199,7 +232,7 @@
       "owner": "cdxi / creator / compliance",
       "acceptance": "Consent-approved live telephony",
       "depends_on": [
-        "T06b"
+        "T06b2"
       ],
       "evidence": [
         "specific voice rights, carrier, recording and legal approvals needed"
@@ -264,19 +297,23 @@
       "evidence": []
     }
   ],
-  "next_action": "Run Node 24 dependency install, Next/Eve typecheck/build; configure creator-specific admin IDs in private environment; wire encrypted human handoff once approved.",
+  "next_action": "Regenerate pnpm lock with the declared pg dependencies in Node 24; run full typecheck, build and DB migration in an authorised isolated staging environment; test denied/allowed role access before enabling synthetic queue.",
   "blockers": [
     {
+      "owner": "cdxi development",
+      "reason": "pnpm lock is stale after pg dependency addition; networked Node 24 install/build pending"
+    },
+    {
+      "owner": "cdxi infrastructure",
+      "reason": "isolated Postgres database, allowed Better Auth operator IDs and secrets have not been configured"
+    },
+    {
       "owner": "Ellie May",
-      "reason": "Specific written public persona and cloned-voice permission, approved script and business boundaries pending"
+      "reason": "specific text persona and voice consent, approved script, knowledge and commercial boundary sign-off pending"
     },
     {
-      "owner": "Compliance reviewer",
-      "reason": "Telephony recording, privacy, adult advertising and vendor terms review pending"
-    },
-    {
-      "owner": "cdxi",
-      "reason": "Better Auth operator allowlist and secure data storage not configured"
+      "owner": "qualified compliance review",
+      "reason": "Australian privacy, WA telephone recording, advertising, age-assurance and AI vendor constraints not cleared"
     }
   ],
   "scope_history": [
@@ -288,6 +325,12 @@
     {
       "date": "2026-11-08",
       "decision": "Split original T05, T06 and T08 into independently testable subtasks; denominator unchanged",
+      "before_points": 29,
+      "after_points": 29
+    },
+    {
+      "date": "2026-11-08",
+      "decision": "Split T05b and T06b into synthetic-only tested contracts and blocked live integrations. No scope reduction; 29 points before and after.",
       "before_points": 29,
       "after_points": 29
     }
